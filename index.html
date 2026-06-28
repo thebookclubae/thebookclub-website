@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>July Shortlist – The Bookclub AE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #940D0D;
+      --ink:      #1C1C1C;
+      --muted:    #6B6460;
+      --card-bg:  #FFFFFF;
+      --border:   #E2DDD8;
+      --genre:    #940D0D;
+      --radius:   12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 56px 24px 48px;
+    }
+
+    .hero-title-img {
+      max-width: 520px;
+      width: 90%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* ── BOOKS SECTION ──────────────────────────────────── */
+    .books-section {
+      background: var(--bg);
+      padding: 40px 20px 0;
+    }
+
+    .books-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Desktop: 3-col gallery */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* Mobile: single-column list */
+    @media (max-width: 700px) {
+      .books-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    /* ── BOOK CARD ──────────────────────────────────────── */
+    .book-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    }
+
+    /* Mobile: horizontal layout */
+    @media (max-width: 700px) {
+      .book-card {
+        flex-direction: row;
+        min-height: 160px;
+      }
+    }
+
+    .book-cover-wrap {
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 701px) {
+  .book-cover-wrap {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .book-cover-wrap {
+    width: 110px;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.book-cover {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+    .book-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .book-genre {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--genre);
+      margin-bottom: 8px;
+    }
+
+    .book-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .book-author {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .book-summary {
+      font-size: 13px;
+      line-height: 1.65;
+      color: #4A4545;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .book-summary {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .book-meta {
+      display: flex;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-pill {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .meta-pill svg { opacity: 0.55; }
+
+    /* ── FOOTER / LOGO ──────────────────────────────────── */
+    footer {
+      padding: 56px 24px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      max-width: 220px;
+      width: 100%;
+      display: block;
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<header class="hero">
+  <img
+    class="hero-title-img"
+    src="logos/title.png"
+    alt="July Shortlist"
+  />
+  <p class="hero-sub">Read the summaries, then vote for your pick in the WhatsApp group.</p>
+</header>
+
+<!-- ── BOOKS ──────────────────────────────────────────────── -->
+<main class="books-section">
+  <div class="books-inner">
+    <div class="books-grid" id="booksGrid"></div>
+  </div>
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <img
+    class="footer-logo"
+    src="logos/logo.png"
+    alt="The Bookclub AE"
+  />
+  <p class="footer-note">@thebookclub_ae &nbsp;·&nbsp; Abu Dhabi</p>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+//  CONTENT — edit this to update the shortlist each month
+//  cover: right-click the book image on Amazon → Copy Image Address
+// ─────────────────────────────────────────────────────────────
+const books = [
+  {
+    title: "A Little Life",
+    author: "Hanya Yanagihara",
+    genre: "Literary Fiction",
+    pages: 720,
+    summary: "Four college friends move to New York, bound by a friendship that centres on Jude St. Francis — a brilliant lawyer haunted by a childhood he cannot speak of. An immersive, devastating novel about trauma, love, and the limits of human endurance.",
+    cover: "https://m.media-amazon.com/images/I/91TxPbnR7dL._SL1500_.jpg"
+  },
+  {
+    title: "All the Light We Cannot See",
+    author: "Anthony Doerr",
+    genre: "Historical Fiction",
+    pages: 544,
+    summary: "A blind French girl and a German orphan with a gift for radio engineering find their paths converging in occupied France during World War II. Winner of the Pulitzer Prize — lyrical, meticulously researched, and profoundly humane.",
+    cover: "https://m.media-amazon.com/images/I/81v5wp2zeQL._SY466_.jpg"
+  },
+  {
+    title: "Tender Is the Flesh",
+    author: "Agustina Bazterrica",
+    genre: "Dystopian Fiction",
+    pages: 224,
+    summary: "After a virus makes animal meat toxic, cannibalism becomes legal and industrialised. Marcos manages a human meat processing plant and tries to keep his conscience intact. A razor-sharp, deeply unsettling allegory about capitalism and complicity. (Content warning: graphic.)",
+    cover: "https://m.media-amazon.com/images/I/41HwH4Rz9yL._SY445_SX342_ML2_.jpg"
+  },
+  {
+    title: "The Unmaking of June Farrow",
+    author: "Adrienne Young",
+    genre: "Magical Realism",
+    pages: 352,
+    summary: "In a small North Carolina mountain town, June Farrow has always feared the family curse that makes women see things that aren't there. When a mysterious red door appears, she walks through — and finds herself in 1951, married to a man she doesn't remember and entangled in a decades-old murder mystery.",
+    cover: "https://m.media-amazon.com/images/I/81KceR2BHsL._SY522_.jpg"
+  },
+  {
+    title: "Anatomy of an Alibi",
+    author: "Ashley Elston",
+    genre: "Thriller",
+    pages: 352,
+    summary: "Two Louisiana women from very different worlds agree to swap identities for twelve hours to expose a dangerous secret. When the husband turns up dead the next morning, only one of them has an alibi — and both are running out of time. A twisty, propulsive follow-up to First Lie Wins.",
+    cover: "https://m.media-amazon.com/images/I/51ZD+jqt1fL._SY445_SX342_ML2_.jpg"
+  },
+  {
+    title: "The River Has Roots",
+    author: "Amal El-Mohtar",
+    genre: "Folk Fantasy",
+    pages: 144,
+    summary: "In the town of Thistleford, on the border of Faerie, sisters Esther and Ysabel tend enchanted willow trees with song. When Esther falls for a fairy lover and rejects a dangerous suitor, the bond between sisters is tested in ways that echo an ancient murder ballad. Lush, lyrical, and utterly bewitching.",
+    cover: "https://m.media-amazon.com/images/I/51O5X+LmyAL._SY445_SX342_ML2_.jpg"
+  },
+  {
+    title: "Boring Asian Female",
+    author: "Canwen Xu",
+    genre: "Literary Thriller",
+    pages: 304,
+    summary: "Elizabeth Zhang has a 3.9 GPA, a dream of Harvard Law, and a rejection letter. Convinced a fellow Columbia student stole her spot, Elizabeth's curiosity about her rival curdles into obsession. A razor-sharp debut that skewers meritocracy, identity, and the pressure to be exceptional.",
+    cover: "https://m.media-amazon.com/images/I/81lpvfImS1L._SL1500_.jpg"
+  },
+  {
+    title: "Wild Dark Shore",
+    author: "Charlotte McConaghy",
+    genre: "Literary Fiction",
+    pages: 320,
+    summary: "Dominic Salt and his three children are the last caretakers of a remote subantarctic island sheltering the world's largest seed vault. When a woman washes ashore in a storm, her arrival unravels secrets everyone on the island has been keeping. Atmospheric, devastating, and impossible to put down.",
+    cover: "https://m.media-amazon.com/images/I/81lXSf+fNXL._SL1500_.jpg"
+  },
+  {
+    title: "Elena Knows",
+    author: "Claudia Piñeiro",
+    genre: "Literary Fiction",
+    pages: 192,
+    summary: "Elena has advanced Parkinson's disease and a dead daughter. The police say it was suicide — Elena knows it was murder. Over one gruelling day, she crosses Buenos Aires to find help, her body fighting her at every step. Shortlisted for the International Booker Prize; quietly, fiercely extraordinary.",
+    cover: "https://m.media-amazon.com/images/I/61aj7Sgsn+L._SL1500_.jpg"
+  },
+  {
+    title: "Anatomy: A Love Story",
+    author: "Dana Schwartz",
+    genre: "Gothic Historical Fiction",
+    pages: 352,
+    summary: "Edinburgh, 1817. Hazel Sinnett wants to become a surgeon but is barred from lectures for being a woman. Her unlikely solution: a deal with a handsome grave robber named Jack. Together they uncover something far darker lurking beneath the city. A gothic, romantic, gruesomely fun page-turner.",
+    cover: "https://m.media-amazon.com/images/I/91CQac3NfQL._SL1500_.jpg"
+  },
+  {
+    title: "The Dinner Party",
+    author: "Freida McFadden",
+    genre: "Choose-Your-Own-Adventure Thriller",
+    pages: 194,
+    summary: "A broke waitress takes a catering gig at a remote mansion — and discovers her wealthy hosts have a very unusual appetite. An interactive 'Pick Your Poison' thriller with over 20 possible endings. Darkly funny, completely unhinged, and finished in one sitting.",
+    cover: "https://m.media-amazon.com/images/I/91cVHWO7a4L._SL1500_.jpg"
+  },
+  {
+    title: "The Vegetarian",
+    author: "Han Kang",
+    genre: "Literary Fiction",
+    pages: 192,
+    summary: "After a brutal nightmare, Yeong-hye stops eating meat — a quiet act of rebellion that sends shockwaves through her family and marriage in patriarchal South Korea. Told from three perspectives, none of them hers. Winner of the International Booker Prize; winner of the 2024 Nobel Prize in Literature.",
+    cover: "https://m.media-amazon.com/images/I/71l1Bhqtr0L._SL1500_.jpg"
+  },
+  {
+    title: "I Who Have Never Known Men",
+    author: "Jacqueline Harpman",
+    genre: "Dystopian Fiction",
+    pages: 188,
+    summary: "Forty women are held in an underground cage by guards who never speak. The youngest, who has never known the world above, leads their escape — only to find a planet emptied of all human life. A haunting, spare post-apocalyptic meditation on what it means to be human.",
+    cover: "https://m.media-amazon.com/images/I/71jIvFJGf9L._SL1500_.jpg"
+  },
+  {
+    title: "Stoner",
+    author: "John Williams",
+    genre: "Literary Fiction",
+    pages: 278,
+    summary: "William Stoner grows up on a Missouri farm, goes to university to study agriculture, and accidentally falls in love with literature. He becomes an English professor. His life is ordinary and, in many ways, unhappy. And yet this novel — described by Tom Hanks as 'one of the most fascinating things' he'd read — is quietly breathtaking.",
+    cover: "https://m.media-amazon.com/images/I/71sOuWGE-8L._SL1500_.jpg"
+  },
+  {
+    title: "Kin",
+    author: "Tayari Jones",
+    genre: "Historical Fiction",
+    pages: 368,
+    summary: "Vernice and Annie are two motherless girls from rural Louisiana who become lifelong friends. Their lives diverge dramatically — one goes to Spelman College, the other searches for the mother who abandoned her — but the bond between them holds. An Oprah's Book Club pick set during the Civil Rights era.",
+    cover: "https://m.media-amazon.com/images/I/81Khh+3QoTL._SL1500_.jpg"
+  },
+  {
+    title: "Hooked",
+    author: "Asako Yuzuki",
+    genre: "Literary Thriller",
+    pages: 400,
+    summary: "Eriko has a perfect job and no friends. Shoko is a popular lifestyle blogger living a chaotic, happy life. When Eriko engineers a meeting with Shoko, their friendship intensifies fast — and then tips into obsession. A sharp, unsettling exploration of female loneliness and the hunger for connection in contemporary Tokyo.",
+    cover: "https://m.media-amazon.com/images/I/717x6C1mblL._SL1500_.jpg"
+  },
+  {
+    title: "The Book of Disappearance",
+    author: "Ibtisam Azem",
+    genre: "Speculative Fiction",
+    pages: 250,
+    summary: "One morning, every Palestinian in Israel vanishes without trace. Through the diary of Alaa — a Palestinian journalist — and the perspective of his Israeli neighbour Ariel, this haunting novel asks what absence reveals about presence. Longlisted for the International Booker Prize 2025.",
+    cover: "https://m.media-amazon.com/images/I/81BVfgt6ugL._SL1360_.jpg"
+  },
+  {
+    title: "Bat Eater and Other Names for Cora Zeng",
+    author: "Kylie Lee Baker",
+    genre: "Horror",
+    pages: 304,
+    summary: "New York, April 2020. Cora Zeng watches her sister pushed in front of a subway train by a man shouting a racial slur. Months later, working as a crime scene cleaner in Chinatown, she starts finding bat carcasses at every job — and all the victims are East Asian women. A propulsive, gory, grief-soaked horror novel about racism, ghosts, and the Hungry Ghost Festival.",
+    cover: "https://m.media-amazon.com/images/I/81Ar8bL9aHL._SL1500_.jpg"
+  },
+  {
+    title: "And the Mountains Echoed",
+    author: "Khaled Hosseini",
+    genre: "Literary Fiction",
+    pages: 404,
+    summary: "A brother and sister are separated in 1950s Afghanistan when their family makes an impossible decision out of poverty. Over six decades and across multiple continents, their story ripples outward through generations. Sweeping, tender, and told with Hosseini's characteristic gift for the human detail.",
+    cover: "https://m.media-amazon.com/images/I/81-nJ9kxZTL._SL1500_.jpg"
+  },
+  {
+    title: "Lost Lambs",
+    author: "Madeline Cash",
+    genre: "Contemporary Fiction",
+    pages: 256,
+    summary: "A deadpan, darkly funny debut novel following a group of young women navigating LA's creative and social scenes with a mix of ambition, apathy, and acute observation. Cash has been compared to Mary Gaitskill and Ottessa Moshfegh — sharp, cool, and quietly devastating.",
+    cover: "https://m.media-amazon.com/images/I/71XQe3MjK9L._SL1500_.jpg"
+  },
+  {
+    title: "The Book Thief",
+    author: "Markus Zusak",
+    genre: "Historical Fiction",
+    pages: 552,
+    summary: "Narrated by Death, this is the story of Liesel Meminger, a girl living in Nazi Germany who steals books and shares them with her neighbours and a Jewish man her family is hiding. A modern classic — tender, inventive, and heart-stopping.",
+    cover: "https://m.media-amazon.com/images/I/81MUbPn6-UL._SY522_.jpg"
+  },
+  {
+    title: "The Midnight Library",
+    author: "Matt Haig",
+    genre: "Speculative Fiction",
+    pages: 304,
+    summary: "Nora Seed finds herself in a library between life and death, where every book represents a life she could have lived if she'd made a different choice. Warm, wise, and quietly radical in its insistence that no life is without worth.",
+    cover: "https://m.media-amazon.com/images/I/71ls-I6A5KL._SL1500_.jpg"
+  },
+  {
+    title: "Breasts and Eggs",
+    author: "Mieko Kawakami",
+    genre: "Literary Fiction",
+    pages: 430,
+    summary: "Three women in Japan — two sisters and a narrator — navigate questions of womanhood, the body, motherhood, and what kind of life is worth wanting. Originally published as two separate novellas, Kawakami's English debut is intimate, precise, and strikingly original.",
+    cover: "https://m.media-amazon.com/images/I/71jf+Il9gfL._SL1500_.jpg"
+  },
+  {
+    title: "Yellowface",
+    author: "R.F. Kuang",
+    genre: "Literary Thriller",
+    pages: 336,
+    summary: "When her Chinese-American friend and literary rival dies in an accident, June Hayward steals her unpublished manuscript and publishes it as her own. A razor-sharp satire of the publishing industry, racism, and cultural appropriation — wickedly readable and morally uncomfortable.",
+    cover: "https://m.media-amazon.com/images/I/61pZ0M900BL._SL1500_.jpg"
+  },
+  {
+    title: "The Poppy War",
+    author: "R.F. Kuang",
+    genre: "Fantasy",
+    pages: 544,
+    summary: "Rin, a war orphan from the south of the Nikara Empire, aces the national exam and wins a place at the country's most prestigious military academy. But the war she trained for is nothing compared to the ancient, terrible power she discovers within herself. Inspired by Chinese history, brutal and brilliant.",
+    cover: "https://m.media-amazon.com/images/I/41bnANqltqL._SY445_SX342_QL70_ML2_.jpg"
+  },
+  {
+    title: "Mornings in Jenin",
+    author: "Susan Abulhawa",
+    genre: "Literary Fiction",
+    pages: 320,
+    summary: "From a Palestinian village destroyed in 1948 to the refugee camps of Jenin, this multigenerational saga follows a family across six decades of displacement, loss, and survival. An urgent, heartbreaking novel told with extraordinary grace and love.",
+    cover: "https://m.media-amazon.com/images/I/81+23mSZwDL._SL1500_.jpg"
+  },
+  {
+    title: "The Invisible Life of Addie Larue",
+    author: "V.E. Schwab",
+    genre: "Fantasy",
+    pages: 448,
+    summary: "In 1714, a young French woman makes a desperate bargain to live free — and is cursed to be forgotten by everyone she meets. Three hundred years later, she crosses paths with a man who, impossibly, remembers her. A sweeping, inventive love story about identity, art, and what it means to leave a mark on the world.",
+    cover: "https://m.media-amazon.com/images/I/71TFsG7r32L._SL1500_.jpg"
+  }
+];
+
+// ─────────────────────────────────────────────────────────────
+//  Render
+// ─────────────────────────────────────────────────────────────
+const grid = document.getElementById('booksGrid');
+
+books.forEach(book => {
+  const card = document.createElement('article');
+  card.className = 'book-card';
+  card.innerHTML = `
+    <div class="book-cover-wrap">
+      <img class="book-cover" src="${book.cover}" alt="Cover of ${book.title}" loading="lazy" />
+    </div>
+    <div class="book-body">
+      <p class="book-genre">${book.genre}</p>
+      <h2 class="book-title">${book.title}</h2>
+      <p class="book-author">${book.author}</p>
+      <p class="book-summary">${book.summary}</p>
+      <div class="book-meta">
+        <span class="meta-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          ${book.pages} pages
+        </span>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
