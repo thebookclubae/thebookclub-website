@@ -75,7 +75,7 @@
     @media (max-width: 700px) {
       .books-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 20px;
       }
     }
 
@@ -95,39 +95,46 @@
       box-shadow: 0 12px 36px rgba(0,0,0,0.18);
     }
 
-    /* Mobile: horizontal layout */
+    /* Mobile: vertical stack — cover on top, full text below,
+       one book after another down the page. */
     @media (max-width: 700px) {
       .book-card {
-        flex-direction: row;
-        min-height: 160px;
+        flex-direction: column;
       }
     }
 
     .book-cover-wrap {
       background: var(--border);
       flex-shrink: 0;
+      width: 100%;
     }
 
-    @media (min-width: 701px) {
-  .book-cover-wrap {
-    width: 100%;
-  }
-}
+    /* Mobile: cap the cover height so the card doesn't open with a
+       giant image; keep it centered and let text lead. */
+    @media (max-width: 700px) {
+      .book-cover-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        max-height: 320px;
+        overflow: hidden;
+      }
+    }
 
-@media (max-width: 700px) {
-  .book-cover-wrap {
-    width: 110px;
-    min-height: 160px;
-    display: flex;
-    align-items: center;
-  }
-}
+    .book-cover {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-.book-cover {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+    @media (max-width: 700px) {
+      .book-cover {
+        width: auto;
+        max-width: 100%;
+        max-height: 320px;
+        object-fit: contain;
+      }
+    }
 
     .book-body {
       padding: 20px;
@@ -136,13 +143,30 @@
       flex: 1;
     }
 
-    .book-genre {
+    /* Row of individual genre tags — flat, underlined (Goodreads style) */
+    .book-genres {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      margin-bottom: 12px;
+    }
+
+    .genre-chip {
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--genre);
-      margin-bottom: 8px;
+      border-bottom: 0.5px solid var(--genre);
+      padding-bottom: 3px;
+    }
+
+    /* Where the book is set — plain country name in the genre red,
+       no pin, no underline. */
+    .book-setting {
+      font-size: 11px;
+      color: var(--genre);
+      margin-bottom: 12px;
     }
 
     .book-title {
@@ -160,26 +184,29 @@
       margin-bottom: 12px;
     }
 
-    .book-summary {
-      font-size: 13px;
-      line-height: 1.65;
-      color: #4A4545;
+    /* Wrapper grows to fill leftover card height, so empty space collects
+       at the BOTTOM of short cards instead of stretching gaps between
+       paragraphs. Individual paragraphs keep their natural height. */
+    .book-summary-group {
       flex: 1;
       margin-bottom: 16px;
     }
 
-    @media (max-width: 700px) {
-      .book-summary {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
+    .book-summary {
+      font-size: 13px;
+      line-height: 1.65;
+      color: #4A4545;
+    }
+
+    /* Space BETWEEN paragraphs only (never before the first). */
+    .book-summary + .book-summary {
+      margin-top: 12px;
     }
 
     .book-meta {
       display: flex;
-      gap: 12px;
+      flex-wrap: wrap;
+      gap: 8px 16px;
       padding-top: 14px;
       border-top: 1px solid var(--border);
     }
@@ -228,7 +255,7 @@
     src="logos/title.png"
     alt="July Shortlist"
   />
-  <p class="hero-sub">Read the summaries, then vote for your pick in the WhatsApp group.</p>
+  <p class="hero-sub">Translated, brilliant, and all women - Welcome to August.</p>
 </header>
 
 <!-- ── BOOKS ──────────────────────────────────────────────── -->
@@ -249,226 +276,285 @@
 </footer>
 
 <script>
-// ─────────────────────────────────────────────────────────────
-//  CONTENT — edit this to update the shortlist each month
-//  cover: right-click the book image on Amazon → Copy Image Address
-// ─────────────────────────────────────────────────────────────
+
+
 const books = [
   {
-    title: "A Little Life",
-    author: "Hanya Yanagihara",
-    genre: "Literary Fiction",
-    pages: 720,
-    summary: "Four college friends move to New York, bound by a friendship that centres on Jude St. Francis — a brilliant lawyer haunted by a childhood he cannot speak of. An immersive, devastating novel about trauma, love, and the limits of human endurance.",
-    cover: "https://m.media-amazon.com/images/I/91TxPbnR7dL._SL1500_.jpg"
+    title: "On the Calculation of Volume I",
+    author: "Solvej Balle",
+    genre: "Sciene Fiction/ Literary Fiction/Magical Realism",
+    pages: 176,
+    published: 2020,
+    setting: "Denmark",
+    summary: [
+      "Tara Selter, the heroine of On the Calculation of Volume, has involuntarily stepped off the train of time: in her world, November eighteenth repeats itself endlessly. We meet Tara on her 122nd November 18th: she no longer experiences the changes of days, weeks, months, or seasons. She finds herself in a lonely new reality without being able to explain why: how is it that she wakes every morning into the same day, knowing to the exact second when the blackbird will burst into song and when the rain will begin? Will she ever be able to share her new life with her beloved and now chronically befuddled husband? And on top of her profound isolation and confusion, Tara takes in with pain how slight a difference she makes in the world. (As she puts it: “That’s how little the activities of one person matter on the eighteenth of November.”)",
+      "Balle is hypnotic and masterful in her remixing of the endless recursive day, creating curious little folds of time and foreshadowings: her flashbacks light up inside the text like old flash bulbs.",
+      "The first volume’s gravitational pull―a force inverse to its constriction―has the effect of a strong tranquilizer, but a drug under which your powers of observation only grow sharper and more acute. Give in to the book's logic (its minute movements, its thrilling shifts, its slant wit, its slowing of time) and its spell is utterly intoxicating.",
+      "Solvej Balle’s seven-volume novel wrings enthralling and magical new dimensions from time and its hapless, mortal subjects."
+    ],
+    cover: "https://m.media-amazon.com/images/I/71A69g8zgcL._SY522_.jpg"
   },
   {
-    title: "All the Light We Cannot See",
-    author: "Anthony Doerr",
-    genre: "Historical Fiction",
-    pages: 544,
-    summary: "A blind French girl and a German orphan with a gift for radio engineering find their paths converging in occupied France during World War II. Winner of the Pulitzer Prize — lyrical, meticulously researched, and profoundly humane.",
-    cover: "https://m.media-amazon.com/images/I/81v5wp2zeQL._SY466_.jpg"
+    title: "What Am I, a Deer?",
+    author: "Polly Barton",
+    genre: "Literary Fiction/Contemporary/Romance",
+    pages: 248,
+    published: 2026,
+    setting: "Germany",
+    summary: "What does it mean to lose yourself – and is that something you should be aiming for? A young woman with little interest in games takes up a job in Frankfurt at a famous gaming company, naively set on reinvention. On her morning commute, in the familiar clutches of tedium and self-loathing, she encounters a nice-eyed stranger who returns her forgotten umbrella and finds herself catapulted into a dizzying, year-long whirlwind of obsession – not just with this endlessly attractive spectre, but also with the feverish karaoke trips from which she draws the ultimate solace. With astonishing existential acuity, Polly Barton's formidable debut novel renders the paradoxes of modern life in all its complexity, in deliriously self-conscious prose that is at once propulsive, titillating and bitingly funny. Echoing with the sounds of Whitney Houston and The Cure, reaching for the sublime in dark, sweaty boxes, What Am I, a Deer? is an exhilarating exploration of authenticity, fantasy, romance and intoxication. ",
+    cover: "https://images-na.ssl-images-amazon.com/images/P/1804272175.01._SCLZZZZZZZ_.jpg"
   },
   {
-    title: "Tender Is the Flesh",
-    author: "Agustina Bazterrica",
-    genre: "Dystopian Fiction",
-    pages: 224,
-    summary: "After a virus makes animal meat toxic, cannibalism becomes legal and industrialised. Marcos manages a human meat processing plant and tries to keep his conscience intact. A razor-sharp, deeply unsettling allegory about capitalism and complicity. (Content warning: graphic.)",
-    cover: "https://m.media-amazon.com/images/I/41HwH4Rz9yL._SY445_SX342_ML2_.jpg"
-  },
-  {
-    title: "The Unmaking of June Farrow",
-    author: "Adrienne Young",
-    genre: "Magical Realism",
+    title: "The Mad Wife",
+    author: "Meagan Church",
+    genre: "Psychological Suspense/Mystery/Thriller",
     pages: 352,
-    summary: "In a small North Carolina mountain town, June Farrow has always feared the family curse that makes women see things that aren't there. When a mysterious red door appears, she walks through — and finds herself in 1951, married to a man she doesn't remember and entangled in a decades-old murder mystery.",
-    cover: "https://m.media-amazon.com/images/I/81KceR2BHsL._SY522_.jpg"
+    published: 2025,
+    setting: "United States",
+    summary: [
+      "Lulu Mayfield has spent the last five years molding herself into the perfect 1950s housewife. Despite the tragic memories that haunt her and the weight of exhausting expectations, she keeps her husband happy, her household running, and her gelatin salads the talk of the neighborhood. But after she gives birth to her second child, Lulu's carefully crafted life begins to unravel.",
+      "When a new neighbor, Bitsy, moves in, Lulu suspects that something darker lurks behind the woman's constant smile. As her fixation on Bitsy deepens, Lulu is drawn into a web of unsettling truths that threaten to expose the cracks in her own life. The more she uncovers about Bitsy, the more she questions everything she thought she knew―and soon, others begin questioning her sanity. But is Lulu truly losing her mind? Or is she on the verge of discovering a reality too terrifying to accept?",
+      "In the vein of The Bell Jar and The Hours, The Mad Wife weaves domestic drama with psychological suspense, so poignant and immersive, you won't want to put it down."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/1464236747.01._SCLZZZZZZZ_.jpg"
   },
   {
-    title: "Anatomy of an Alibi",
-    author: "Ashley Elston",
-    genre: "Thriller",
-    pages: 352,
-    summary: "Two Louisiana women from very different worlds agree to swap identities for twelve hours to expose a dangerous secret. When the husband turns up dead the next morning, only one of them has an alibi — and both are running out of time. A twisty, propulsive follow-up to First Lie Wins.",
-    cover: "https://m.media-amazon.com/images/I/51ZD+jqt1fL._SY445_SX342_ML2_.jpg"
+    title: "The Three-Body Problem",
+    author: "Liu Cixin",
+    genre: "Science Fiction",
+    pages: 472,
+    published: 2008,
+    setting: "China",
+    summary: [
+      "Set against the backdrop of China's Cultural Revolution, a secret military project sends signals into space to establish contact with aliens. An alien civilization on the brink of destruction captures the signal and plans to invade Earth. Meanwhile, on Earth, different camps start forming, planning to either welcome the superior beings and help them take over a world seen as corrupt, or to fight against the invasion."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0765382032.01._SCLZZZZZZZ_.jpg"
+  },
+  ,
+  {
+    title: "The Measure",
+    author: "Nikki Erlick",
+    genre: "Science Fiction/Dystopia",
+    pages: 353,
+    published: 2022,
+    setting: "United States",
+    summary: [
+     "Eight ordinary people. One extraordinary choice.",
+    "It seems like any other day. You wake up, drink a cup of coffee, and head out.",
+
+  "But today, when you open your front door, waiting for you is a small wooden box. The contents of this mysterious box tells you the exact number of years you will live.",
+
+  "From suburban doorsteps to desert tents, every person on every continent receives the same box. In an instant, the world is thrust into a collective frenzy. Where did these boxes come from? What do they mean? Is there truth to what they promise?",
+
+  "As society comes together and pulls apart, everyone faces the same shocking choice: Do they wish to know how long they’ll live? And, if so, what will they do with that knowledge?",
+
+"The Measure charts the dawn of this new world through an unforgettable cast of characters whose decisions and fates interweave with one another: best friends whose dreams are forever entwined, pen pals finding refuge in the unknown, a couple who thought they didn’t have to rush, a doctor who cannot save himself, and a politician whose box becomes the powder keg that ultimately changes everything.",
+"Enchanting and deeply uplifting, The Measure is an ambitious, invigorating story about family, friendship, hope, and destiny that encourages us to live life to the fullest."
+
+    ],
+    cover: "https://m.media-amazon.com/images/I/815qK9llLNL._SL1500_.jpg"
   },
   {
-    title: "The River Has Roots",
-    author: "Amal El-Mohtar",
-    genre: "Folk Fantasy",
-    pages: 144,
-    summary: "In the town of Thistleford, on the border of Faerie, sisters Esther and Ysabel tend enchanted willow trees with song. When Esther falls for a fairy lover and rejects a dangerous suitor, the bond between sisters is tested in ways that echo an ancient murder ballad. Lush, lyrical, and utterly bewitching.",
-    cover: "https://m.media-amazon.com/images/I/51O5X+LmyAL._SY445_SX342_ML2_.jpg"
+    title: "My Brilliant Friend",
+    author: "Elena Ferrante",
+    genre: "Literary Fiction/Historical Fiction",
+    pages: 331,
+    published: 2011,
+    setting: "Italy",
+    summary: [
+      "Beginning in the 1950s in a poor but vibrant neighborhood on the outskirts of Naples, Elena Ferrante's four-volume story spans almost sixty years, as its main characters, the fiery and unforgettable Lila and the bookish narrator, Elena, become women, wives, mothers, and leaders, all the while maintaining a complex and at times conflicted friendship. This first novel in the series follows Lila and Elena from their fateful meeting as ten-year-olds through their school years and adolescence.",
+      "Through the lives of these two women, Ferrante tells the story of a neighborhood, a city, and a country as it is transformed in ways that, in turn, also transform the relationship between two women."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/1609450787.01._SCLZZZZZZZ_.jpg"
   },
   {
-    title: "Boring Asian Female",
-    author: "Canwen Xu",
-    genre: "Literary Thriller",
-    pages: 304,
-    summary: "Elizabeth Zhang has a 3.9 GPA, a dream of Harvard Law, and a rejection letter. Convinced a fellow Columbia student stole her spot, Elizabeth's curiosity about her rival curdles into obsession. A razor-sharp debut that skewers meritocracy, identity, and the pressure to be exceptional.",
-    cover: "https://m.media-amazon.com/images/I/81lpvfImS1L._SL1500_.jpg"
-  },
-  {
-    title: "Wild Dark Shore",
-    author: "Charlotte McConaghy",
-    genre: "Literary Fiction",
-    pages: 320,
-    summary: "Dominic Salt and his three children are the last caretakers of a remote subantarctic island sheltering the world's largest seed vault. When a woman washes ashore in a storm, her arrival unravels secrets everyone on the island has been keeping. Atmospheric, devastating, and impossible to put down.",
-    cover: "https://m.media-amazon.com/images/I/81lXSf+fNXL._SL1500_.jpg"
-  },
-  {
-    title: "Elena Knows",
-    author: "Claudia Piñeiro",
-    genre: "Literary Fiction",
+    title: "Greek Lessons",
+    author: "Han Kang",
+    genre: "Literary Fiction/Contemporary/Romance",
     pages: 192,
-    summary: "Elena has advanced Parkinson's disease and a dead daughter. The police say it was suicide — Elena knows it was murder. Over one gruelling day, she crosses Buenos Aires to find help, her body fighting her at every step. Shortlisted for the International Booker Prize; quietly, fiercely extraordinary.",
-    cover: "https://m.media-amazon.com/images/I/61aj7Sgsn+L._SL1500_.jpg"
+    published: 2011,
+    setting: "South Korea",
+    summary: [
+      "In a classroom in Seoul, a young woman watches her Greek language teacher at the blackboard. She tries to speak but has lost her voice. Her teacher finds himself drawn to the silent woman, for day by day he is losing his sight",
+      "Soon the two discover a deeper pain binds them together. For her, in the space of just a few months, she has lost both her mother and the custody battle for her nine-year-old son. For him, it’s the pain of growing up between Korea and Germany, being torn between two cultures and languages, and the fear of losing his independence.",
+      "Greek Lessons tells the story of two ordinary people brought together at a moment of private anguish—the fading light of a man losing his vision meeting the silence of a woman who has lost her language. Yet these are the very things that draw them to each other. Slowly the two discover a profound sense of unity—their voices intersecting with startling beauty, as they move from darkness to light, from silence to breath and expression.",
+      "Greek Lessons is the story of the unlikely bond between this pair and a tender love letter to human intimacy and connection—a novel to awaken the senses, one that vividly conjures the essence of what it means to be alive."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0593595270.01._SCLZZZZZZZ_.jpg"
   },
   {
-    title: "Anatomy: A Love Story",
-    author: "Dana Schwartz",
-    genre: "Gothic Historical Fiction",
-    pages: 352,
-    summary: "Edinburgh, 1817. Hazel Sinnett wants to become a surgeon but is barred from lectures for being a woman. Her unlikely solution: a deal with a handsome grave robber named Jack. Together they uncover something far darker lurking beneath the city. A gothic, romantic, gruesomely fun page-turner.",
-    cover: "https://m.media-amazon.com/images/I/91CQac3NfQL._SL1500_.jpg"
-  },
-  {
-    title: "The Dinner Party",
-    author: "Freida McFadden",
-    genre: "Choose-Your-Own-Adventure Thriller",
-    pages: 194,
-    summary: "A broke waitress takes a catering gig at a remote mansion — and discovers her wealthy hosts have a very unusual appetite. An interactive 'Pick Your Poison' thriller with over 20 possible endings. Darkly funny, completely unhinged, and finished in one sitting.",
-    cover: "https://m.media-amazon.com/images/I/91cVHWO7a4L._SL1500_.jpg"
-  },
-  {
-    title: "The Vegetarian",
+    title: "We Do Not Part",
     author: "Han Kang",
     genre: "Literary Fiction",
-    pages: 192,
-    summary: "After a brutal nightmare, Yeong-hye stops eating meat — a quiet act of rebellion that sends shockwaves through her family and marriage in patriarchal South Korea. Told from three perspectives, none of them hers. Winner of the International Booker Prize; winner of the 2024 Nobel Prize in Literature.",
-    cover: "https://m.media-amazon.com/images/I/71l1Bhqtr0L._SL1500_.jpg"
-  },
-  {
-    title: "I Who Have Never Known Men",
-    author: "Jacqueline Harpman",
-    genre: "Dystopian Fiction",
-    pages: 188,
-    summary: "Forty women are held in an underground cage by guards who never speak. The youngest, who has never known the world above, leads their escape — only to find a planet emptied of all human life. A haunting, spare post-apocalyptic meditation on what it means to be human.",
-    cover: "https://m.media-amazon.com/images/I/71jIvFJGf9L._SL1500_.jpg"
-  },
-  {
-    title: "Stoner",
-    author: "John Williams",
-    genre: "Literary Fiction",
-    pages: 278,
-    summary: "William Stoner grows up on a Missouri farm, goes to university to study agriculture, and accidentally falls in love with literature. He becomes an English professor. His life is ordinary and, in many ways, unhappy. And yet this novel — described by Tom Hanks as 'one of the most fascinating things' he'd read — is quietly breathtaking.",
-    cover: "https://m.media-amazon.com/images/I/71sOuWGE-8L._SL1500_.jpg"
-  },
-  {
-    title: "Kin",
-    author: "Tayari Jones",
-    genre: "Historical Fiction",
-    pages: 368,
-    summary: "Vernice and Annie are two motherless girls from rural Louisiana who become lifelong friends. Their lives diverge dramatically — one goes to Spelman College, the other searches for the mother who abandoned her — but the bond between them holds. An Oprah's Book Club pick set during the Civil Rights era.",
-    cover: "https://m.media-amazon.com/images/I/81Khh+3QoTL._SL1500_.jpg"
-  },
-  {
-    title: "Hooked",
-    author: "Asako Yuzuki",
-    genre: "Literary Thriller",
-    pages: 400,
-    summary: "Eriko has a perfect job and no friends. Shoko is a popular lifestyle blogger living a chaotic, happy life. When Eriko engineers a meeting with Shoko, their friendship intensifies fast — and then tips into obsession. A sharp, unsettling exploration of female loneliness and the hunger for connection in contemporary Tokyo.",
-    cover: "https://m.media-amazon.com/images/I/717x6C1mblL._SL1500_.jpg"
-  },
-  {
-    title: "The Book of Disappearance",
-    author: "Ibtisam Azem",
-    genre: "Speculative Fiction",
-    pages: 250,
-    summary: "One morning, every Palestinian in Israel vanishes without trace. Through the diary of Alaa — a Palestinian journalist — and the perspective of his Israeli neighbour Ariel, this haunting novel asks what absence reveals about presence. Longlisted for the International Booker Prize 2025.",
-    cover: "https://m.media-amazon.com/images/I/81BVfgt6ugL._SL1360_.jpg"
-  },
-  {
-    title: "Bat Eater and Other Names for Cora Zeng",
-    author: "Kylie Lee Baker",
-    genre: "Horror",
-    pages: 304,
-    summary: "New York, April 2020. Cora Zeng watches her sister pushed in front of a subway train by a man shouting a racial slur. Months later, working as a crime scene cleaner in Chinatown, she starts finding bat carcasses at every job — and all the victims are East Asian women. A propulsive, gory, grief-soaked horror novel about racism, ghosts, and the Hungry Ghost Festival.",
-    cover: "https://m.media-amazon.com/images/I/81Ar8bL9aHL._SL1500_.jpg"
-  },
-  {
-    title: "And the Mountains Echoed",
-    author: "Khaled Hosseini",
-    genre: "Literary Fiction",
-    pages: 404,
-    summary: "A brother and sister are separated in 1950s Afghanistan when their family makes an impossible decision out of poverty. Over six decades and across multiple continents, their story ripples outward through generations. Sweeping, tender, and told with Hosseini's characteristic gift for the human detail.",
-    cover: "https://m.media-amazon.com/images/I/81-nJ9kxZTL._SL1500_.jpg"
-  },
-  {
-    title: "Lost Lambs",
-    author: "Madeline Cash",
-    genre: "Contemporary Fiction",
     pages: 256,
-    summary: "A deadpan, darkly funny debut novel following a group of young women navigating LA's creative and social scenes with a mix of ambition, apathy, and acute observation. Cash has been compared to Mary Gaitskill and Ottessa Moshfegh — sharp, cool, and quietly devastating.",
-    cover: "https://m.media-amazon.com/images/I/71XQe3MjK9L._SL1500_.jpg"
+    published: 2021,
+    setting: "South Korea",
+    summary: [
+      "One winter morning in Seoul, Kyungha receives an urgent message from her friend Inseon to visit her at the hospital. Inseon has injured herself in an accident, and she begs Kyungha to return to Jeju Island, where she lives, to save her beloved pet—a white bird called Ama. A snowstorm hits the island when Kyungha arrives. She must reach Inseon’s house at all costs, but the icy wind and squalls slow her down as night begins to fall. She wonders if she will arrive in time to save the animal—or even survive the terrible cold that envelops her with every step. Lost in a world of snow, she doesn’t yet suspect the vertiginous plunge into darkness that awaits her at her friend’s house.",
+      "Blurring the boundaries between dream and reality, We Do Not Part powerfully brings to light the lost voices of the past to save them from oblivion. Both a hymn to an enduring friendship and an argument for remembering, it is the story of profound love in the face of unspeakable pain—and a celebration of life, however fragile it might be."
+    ],
+    cover: "https://m.media-amazon.com/images/I/81jB3aKhjdL._SY522_.jpg"
   },
   {
-    title: "The Book Thief",
-    author: "Markus Zusak",
-    genre: "Historical Fiction",
-    pages: 552,
-    summary: "Narrated by Death, this is the story of Liesel Meminger, a girl living in Nazi Germany who steals books and shares them with her neighbours and a Jewish man her family is hiding. A modern classic — tender, inventive, and heart-stopping.",
-    cover: "https://m.media-amazon.com/images/I/81MUbPn6-UL._SY522_.jpg"
+    title: "Human Acts",
+    author: "Han Kang",
+    genre: "Literary Fiction",
+    pages: 218,
+    published: 2014,
+    setting: "South Korea",
+    summary: [
+      "In the midst of a violent student uprising in South Korea, a young boy named Dong-ho is shockingly killed.",
+  "The story of this tragic episode unfolds in a sequence of interconnected chapters as the victims and the bereaved encounter suppression, denial, and the echoing agony of the massacre. From Dong-ho’s best friend, who meets his own fateful end, to an editor struggling against censorship; to a prisoner and a factory worker, both suffering from traumatic memories; and to Dong-ho's own grief-stricken mother, their collective heartbreak and acts of hope tell the tale of a brutalized people in search of a voice.",
+  "An award-winning, controversial bestseller, Human Acts is a timeless, pointillist portrait of a historic event with reverberations still being felt today, by turns tracing the harsh reality of oppression and the resounding, extraordinary poetry of humanity."
+    ],
+    cover: "https://m.media-amazon.com/images/I/71cxeC0TK4L._SL1500_.jpg"
   },
   {
-    title: "The Midnight Library",
-    author: "Matt Haig",
-    genre: "Speculative Fiction",
-    pages: 304,
-    summary: "Nora Seed finds herself in a library between life and death, where every book represents a life she could have lived if she'd made a different choice. Warm, wise, and quietly radical in its insistence that no life is without worth.",
-    cover: "https://m.media-amazon.com/images/I/71ls-I6A5KL._SL1500_.jpg"
+    title: "The Wall",
+    author: "Marlen Haushofer",
+    genre: "Science Fiction/Dystopia",
+    pages: 240,
+    published: 1963,
+    setting: "Austria",
+    summary: "First published to acclaim in Germany, The Wall chronicles the life of the last surviving human on earth, an ordinary middle-aged woman who awakens one morning to find that everyone else has vanished. Assuming her isolation to be the result of a military experiment gone awry, she begins the terrifying work of survival and self-renewal. This novel is at once a simple and moving tale and a disturbing meditation on humanity.",
+    cover: "https://m.media-amazon.com/images/I/81JvAhklH1L._SY522_.jpg"
+  },
+  {
+    title: "As Long as the Lemon Trees Grow",
+    author: "Zoulfa Katouh",
+    genre: "Young Adult/Historical Fiction",
+    pages: 417,
+    published: 2022,
+    setting: "Syria",
+    summary: [
+      "Salama Kassab was a pharmacy student when the cries for freedom broke out in Syria. She still had her parents and her big brother; she still had her home. She had a normal teenager’s life.",
+      "Now Salama volunteers at a hospital in Homs, helping the wounded who flood through the doors daily. Secretly, though, she is desperate to find a way out of her beloved country before her sister-in-law, Layla, gives birth. So desperate, that she has manifested a physical embodiment of her fear in the form of her imagined companion, Khawf, who haunts her every move in an effort to keep her safe.",
+      "But even with Khawf pressing her to leave, Salama is torn between her loyalty to her country and her conviction to survive. Salama must contend with bullets and bombs, military assaults, and her shifting sense of morality before she might finally breathe free. And when she crosses paths with the boy she was supposed to meet one fateful day, she starts to doubt her resolve in leaving home at all.",
+      "Soon, Salama must learn to see the events around her for what they truly are—not a war, but a revolution—and decide how she, too, will cry for Syria’s freedom."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0316351377.01._SCLZZZZZZZ_.jpg"
+  },
+  {
+    title: "All the Lovers in the Night",
+    author: "Mieko Kawakami",
+    genre: "Literary Fiction/Contemporary/Romance",
+    pages: 224,
+    published: 2011,
+    setting: "Japan",
+    summary: [
+      "Fuyuko Irie is a freelance copy editor in her mid-thirties. Working and living alone in a city where it is not easy to form new relationships, she has little regular contact with anyone other than her editor, Hijiri, a woman of the same age but with a very different disposition. When Fuyuko stops one day on a Tokyo street and notices her reflection in a storefront window, what she sees is a drab, awkward, and spiritless woman who has lacked the strength to change her life and decides to do something about it.",
+      "As the long overdue change occurs, however, painful episodes from Fuyuko’s past surface and her behavior slips further and further beyond the pale. All the Lovers in the Night is acute and insightful, entertaining and engaging; it will make readers laugh, and it will make them cry, but it will also remind them, as only the best books do, that sometimes the pain is worth it."
+    ],
+    cover: "https://m.media-amazon.com/images/I/41b1Aw7l6jL._SY445_SX342_ML2_.jpg"
   },
   {
     title: "Breasts and Eggs",
     author: "Mieko Kawakami",
-    genre: "Literary Fiction",
-    pages: 430,
-    summary: "Three women in Japan — two sisters and a narrator — navigate questions of womanhood, the body, motherhood, and what kind of life is worth wanting. Originally published as two separate novellas, Kawakami's English debut is intimate, precise, and strikingly original.",
-    cover: "https://m.media-amazon.com/images/I/71jf+Il9gfL._SL1500_.jpg"
+    genre: "Literary Fiction/Contemporary/Feminism",
+    pages: 448,
+    published: 2019,
+    setting: "Japan",
+    summary: [
+      "Challenging every preconception about storytelling and prose style, mixing wry humor and riveting emotional depth, Kawakami is today one of Japan’s most important and best-selling writers. She exploded onto the cultural scene first as a musician, then as a poet and popular blogger, and is now an award-winning novelist.",
+      "Breasts and Eggs paints a portrait of contemporary womanhood in Japan and recounts the intimate journeys of three women as they confront oppressive mores and their own uncertainties on the road to finding peace and futures they can truly call their own.",
+      "It tells the story of three women: the thirty-year-old Natsu, her older sister, Makiko, and Makiko’s daughter, Midoriko. Makiko has traveled to Tokyo in search of an affordable breast enhancement procedure. She is accompanied by Midoriko, who has recently grown silent, finding herself unable to voice the vague yet overwhelming pressures associated with growing up. Her silence proves a catalyst for each woman to confront her fears and frustrations.",
+      "On another hot summer’s day ten years later, Natsu, on a journey back to her native city, struggles with her own indeterminate identity as she confronts anxieties about growing old alone and childless."
+    ],
+    cover: "https://m.media-amazon.com/images/I/71jutLy-lyS._SY522_.jpg"
+  },
+  {
+    title: "Out",
+    author: "Natsuo Kirino",
+    genre: "Mystery/Thriller",
+    pages: 400,
+    published: 1997,
+    setting: "Japan",
+    summary: [
+      "Natsuo Kirino's novel tells a story of random violence in the staid Tokyo suburbs, as a young mother who works a night shift making boxed lunches brutally strangles her deadbeat husband and then seeks the help of her co-workers to dispose of the body and cover up her crime.",
+      "The ringleader of this cover-up, Masako Katori, emerges as the emotional heart of Out and as one of the shrewdest, most clear-eyed creations in recent fiction. Masako's own search for a way out of the straitjacket of a dead-end life leads her, too, to take drastic action.",
+      "The complex yet riveting narrative seamlessly combines a convincing glimpse into the grimy world of Japan's yakuza with a brilliant portrayal of the psychology of a violent crime and the ensuing game of cat-and-mouse between seasoned detectives and a group of determined but inexperienced criminals. Kirino has mastered a Thelma and Louise kind of graveyard humor that illuminates her stunning evocation of the pressures and prejudices that drive women to extreme deeds and the friendship that bolsters them in the aftermath."
+    ],
+    cover: "https://m.media-amazon.com/images/I/91R6LF3xUDL._SY522_.jpg"
   },
   {
     title: "Yellowface",
     author: "R.F. Kuang",
-    genre: "Literary Thriller",
-    pages: 336,
-    summary: "When her Chinese-American friend and literary rival dies in an accident, June Hayward steals her unpublished manuscript and publishes it as her own. A razor-sharp satire of the publishing industry, racism, and cultural appropriation — wickedly readable and morally uncomfortable.",
-    cover: "https://m.media-amazon.com/images/I/61pZ0M900BL._SL1500_.jpg"
+    genre: "Contemporary/Literary Thriller",
+    pages: 319,
+    published: 2023,
+    setting: "United States",
+    summary: [
+      "Authors Juniper Hayward and Athena Liu were supposed to be twin rising stars. But Athena is a literary darling while June is a nobody. Who wants stories about basic white girls?, June thinks. So when June witnesses Athena’s death in a freak accident, she acts on impulse, stealing Athena’s just-finished masterpiece, an experimental novel about the unsung contributions of Chinese laborers during World War I.",
+      "So what if June edits Athena’s novel and sends it to her agent as her own work? So what if she lets her new publisher rebrand her as Juniper Song—complete with an ambiguously ethnic author photo? This piece of history deserve to be told, whoever the teller. That is what June believes, and The New York Times bestseller list agrees.",
+      "But June cannot escape Athena’s shadow, and emerging evidence threatens her stolen success. As she races to protect her secret she discovers exactly how far she will go to keep what she thinks she deserves."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0063250837.01._SCLZZZZZZZ_.jpg"
   },
   {
-    title: "The Poppy War",
-    author: "R.F. Kuang",
-    genre: "Fantasy",
-    pages: 544,
-    summary: "Rin, a war orphan from the south of the Nikara Empire, aces the national exam and wins a place at the country's most prestigious military academy. But the war she trained for is nothing compared to the ancient, terrible power she discovers within herself. Inspired by Chinese history, brutal and brilliant.",
-    cover: "https://m.media-amazon.com/images/I/41bnANqltqL._SY445_SX342_QL70_ML2_.jpg"
+    title: "Land",
+    author: "Maggie O'Farrell",
+    genre: "Historical Fiction",
+    pages: 400,
+    published: 2026,
+    setting: "Ireland",
+    summary: [
+      "On a windswept peninsula stretching out into the Atlantic, Tomás and his reluctant son, Liam, are working for the great Ordnance Survey project to map the whole of Ireland. The year is 1865, and in a country not long since ravaged and emptied by the Great Hunger, the task is not an easy one. Tomás, however, is determined that his maps will be a record of the disaster.",
+      "The British soldiers in charge are due to arrive any day, expecting the work to be completed, but Tomás is sent off course by an unsettling encounter in a copse. His life, and those of his family, will never be the same again. Liam is terrified by the sudden change in his taciturn father. What was it that caused such cracks to open in Tomás and how is Liam, aged only ten, going to finish the mapping, and get them both home?",
+      "Land is a story of buried treasure, overlapping lives, ancient woodland, persistent ghosts, a particularly loyal dog, and how, when it comes to both land and history, nothing ever goes away."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0593320646.01._SCLZZZZZZZ_.jpg"
+  },
+   {
+    title: "Circle of Spices",
+    author: "Salha Obaid",
+    genre: "Fiction",
+    pages: "Undisclosed",
+    published: 2024,
+    setting: "United Arab Emirates",
+    summary: ["A windstorm of fire, scent, and vengeance engulfs three different generations in the Arabian Peninsula. In the ninth century AD, Abbasid poet Ibn al-Mo’taz hides in his palace from the flames of revenge eating at his soul. In the early 1920s, Shamma is born to a family of Dubai spice traders with a nose unlike any of her relatives, altering the shape of their destiny. A hundred years later, on the same coast, Sherihan grows up right by a cemetery wall, digging in constant search for death and its meaning. Her supernatural sense of smell lets her perceive feelings beyond anyone else’s reach, but when a peculiar boy tries to help her, she’s unable to detect his scent.","Can she find the answer to her burning questions? And how do scents and family secrets link her fate with those who went before?"
+    ],
+    cover: "https://www.kutubna.ae/cdn/shop/files/Screenshot2026-03-28104549.png?v=1774680377"
   },
   {
-    title: "Mornings in Jenin",
-    author: "Susan Abulhawa",
-    genre: "Literary Fiction",
-    pages: 320,
-    summary: "From a Palestinian village destroyed in 1948 to the refugee camps of Jenin, this multigenerational saga follows a family across six decades of displacement, loss, and survival. An urgent, heartbreaking novel told with extraordinary grace and love.",
-    cover: "https://m.media-amazon.com/images/I/81+23mSZwDL._SL1500_.jpg"
+    title: "Drive Your Plow Over the Bones of the Dead",
+    author: "Olga Tokarczuk",
+    genre: "Literary Fiction/Mystery/Thriller",
+    pages: 270,
+    published: 2009,
+    setting: "Poland",
+    summary: [
+      "One of Poland's most imaginative and lyrical writers, Olga Tokarczuk presents us with a detective story with a twist in DRIVE YOUR PLOW OVER THE BONES OF THE DEAD. After her two dogs go missing and members of the local hunting club are found murdered, teacher and animal rights activist Janina Duszejko becomes involved in the ensuing investigation. Part magic realism, part detective story, DRIVE YOUR PLOW OVER THE BONES OF THE DEAD is suspenseful and entertaining reimagining of the genre interwoven with poignant and insightful commentaries on our perceptions of madness, marginalised people and animal rights."
+    ],
+    cover: "https://m.media-amazon.com/images/I/81tAwoFs7OL._SL1500_.jpg"
   },
   {
-    title: "The Invisible Life of Addie Larue",
-    author: "V.E. Schwab",
-    genre: "Fantasy",
-    pages: 448,
-    summary: "In 1714, a young French woman makes a desperate bargain to live free — and is cursed to be forgotten by everyone she meets. Three hundred years later, she crosses paths with a man who, impossibly, remembers her. A sweeping, inventive love story about identity, art, and what it means to leave a mark on the world.",
-    cover: "https://m.media-amazon.com/images/I/71TFsG7r32L._SL1500_.jpg"
+    title: "My Husband",
+    author: "Maud Ventura",
+    genre: "Contemporary/Literary Fiction",
+    pages: 272,
+    published: 2021,
+    setting: "France",
+    summary: [
+      "At forty years old, she has an enviable life: a successful career, stunning looks, a beautiful house in the suburbs, two healthy children, and most importantly, an ideal husband. After fifteen years together, she is still besotted with him. But she's never quite sure that her passion is reciprocated. After all, would a truly infatuated man ever let go of his wife's hand when they're sitting on the couch together?",
+      "Determined to keep their relationship perfect, she meticulously prepares for every encounter they have, always taking care to make her actions seem effortless. She watches him attentively, charting every mistake and punishing him accordingly to help him improve. And she tests him--setting traps to make sure that he still loves her just as much as he did when they first met.",
+      "Until one day she realizes she may have gone too far . . ."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0063274825.01._SCLZZZZZZZ_.jpg"
+  },
+  {
+    title: "Hooked",
+    author: "Asako Yuzuki",
+    genre: "Contemporary/Literary Thriller",
+    pages: 400,
+    published: 2015,
+    setting: "Japan",
+    summary: [
+      "Eriko’s life looks perfect—from her prestigious job at a Japanese trading firm to her spotless apartment and devoted parents. Her newest project, to reintroduce the controversial Nile Perch into the Japanese market, is as ambitious as she is. But beneath her flawless surface lies a consuming loneliness. Eriko has never been able to hold on to a real friend.",
+      "Enter a popular lifestyle blogger whose work Eriko follows obsessively. Shoko lives a life of controlled chaos—messy apartment, take-out dinners, a kind, easy-going husband. She writes about daily contentment, though her fractured relationship with her father gnaws at the edges of her happiness.",
+      "When Eriko orchestrates a “chance” meeting with Shoko, the two women strike up an unlikely connection. For a fleeting moment, Eriko believes she’s finally found what she’s always longed for. But as her fascination turns to fixation and Shoko’s carefully balanced life begins to dissolve, both women are pushed to breaking points neither of them saw coming.",
+      "Deftly translated by Polly Barton, Hooked is a taut, provocative novel about modern womanhood, the hunger for connection, and the quiet, ordinary ways our lives can spiral out of control. With razor-sharp insight and disarming empathy, Asako Yuzuki explores how far we’ll go to be seen and what happens when the ones who see us don’t like what they find."
+    ],
+    cover: "https://images-na.ssl-images-amazon.com/images/P/0063442418.01._SCLZZZZZZZ_.jpg"
   }
 ];
 
@@ -480,20 +566,39 @@ const grid = document.getElementById('booksGrid');
 books.forEach(book => {
   const card = document.createElement('article');
   card.className = 'book-card';
+
+  // Build the summary paragraphs (supports both a string and an array).
+  const summaryParas = (Array.isArray(book.summary) ? book.summary : [book.summary])
+    .map(p => `<p class="book-summary">${p}</p>`)
+    .join("");
+
+  // Split the genre on "/" so each one shows as its own chip.
+  const genreChips = book.genre
+    .split("/")
+    .map(g => `<span class="genre-chip">${g.trim()}</span>`)
+    .join("");
+
   card.innerHTML = `
     <div class="book-cover-wrap">
       <img class="book-cover" src="${book.cover}" alt="Cover of ${book.title}" loading="lazy" />
     </div>
     <div class="book-body">
-      <p class="book-genre">${book.genre}</p>
+      <div class="book-genres">${genreChips}</div>
+      ${book.setting ? `<div class="book-setting">${book.setting}</div>` : ""}
       <h2 class="book-title">${book.title}</h2>
       <p class="book-author">${book.author}</p>
-      <p class="book-summary">${book.summary}</p>
+      <div class="book-summary-group">
+        ${summaryParas}
+      </div>
       <div class="book-meta">
         <span class="meta-pill">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           ${book.pages} pages
         </span>
+        ${book.published ? `<span class="meta-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          First published ${book.published}
+        </span>` : ""}
       </div>
     </div>
   `;
